@@ -1,7 +1,13 @@
 <template>
-    <div class="add-item">
-      <button class="add-button"><span class="iconfont">&#xe829;</span></button>
-    </div>
+  <div class="add-item">
+    <router-link
+      tag="button"
+      to="/list"
+      class="add-button"
+    >
+    <span class="iconfont">&#xe829;</span>
+    </router-link>
+  </div>
 </template>
 
 <script>
@@ -14,6 +20,7 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
+@import '~styles/varibles.styl'
 .add-item
   position fixed
   bottom .4rem
@@ -24,7 +31,7 @@ export default {
   .add-button
     width 1rem
     height 1rem
-    background #e06955
+    background $bgcolor
     color #fff
     border-radius 50%
     overflow hidden

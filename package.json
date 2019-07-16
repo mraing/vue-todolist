@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@better-scroll/core": "^2.0.0-alpha.20",
+    "animate.css": "^3.7.2",
     "better-scroll": "^1.15.2",
     "fastclick": "^1.0.6",
     "vue": "^2.5.2",

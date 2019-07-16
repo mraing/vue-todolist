@@ -13,6 +13,9 @@ import 'swiper/dist/css/swiper.css'
 import 'styles/reset.css'
 import 'styles/border.css'
 
+// 引入动画库
+import animate from 'animate.css'
+
 // 引入第三方库（解决移动端点击延迟）
 import fastClick from 'fastClick'
 
@@ -20,7 +23,7 @@ import fastClick from 'fastClick'
 fastClick.attach(document.body)
 
 // 使用轮播图
-Vue.use(VueAwesomeSwiper)
+Vue.use(VueAwesomeSwiper, animate)
 
 Vue.config.productionTip = false
 
