@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <home-header></home-header>
-    <home-list></home-list>
+    <home-list :list="list"></home-list>
     <home-add-item></home-add-item>
   </div>
 </template>
@@ -13,12 +13,35 @@ import HomeAddItem from './components/AddItem'
 export default {
   name: 'Home',
   data () {
-    return {}
+    return {
+      title: '',
+      list: [{
+        id: 1,
+        title: '今天也要好好学习呢',
+        time: 'AM 7:30'
+      }]
+    }
   },
   components: {
     HomeHeader,
     HomeList,
     HomeAddItem
+  },
+  methods: {
+    getData () {
+      let title = this.$route.params.title
+      if (title) {
+        this.title = title
+        this.list.push({
+          id: this.list.length + 1,
+          title: title,
+          time: 'AM 7:30'
+        })
+      }
+    }
+  },
+  mounted () {
+    this.getData()
   }
 }
 </script>

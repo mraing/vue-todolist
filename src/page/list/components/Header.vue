@@ -6,7 +6,7 @@
       >
         <span class="iconfont">&#xe601;</span>
       </router-link>
-      <div class="header-save">Save</div>
+      <div class="header-save" @click="handleSave">Save</div>
   </div>
 </template>
 
@@ -15,6 +15,11 @@ export default {
   name: 'ListHeader',
   data () {
     return {}
+  },
+  methods: {
+    handleSave () {
+      this.$emit('handleSave')
+    }
   }
 }
 </script>

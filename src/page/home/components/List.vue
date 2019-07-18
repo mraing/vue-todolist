@@ -3,9 +3,9 @@
     <div class="list-number">今天有 3 个任务</div>
     <div class="list-wrapper" ref="wrapper">
       <ul class="list">
-        <li class="list-item" v-for="(item, index) in 15" :key="index">
+        <li class="list-item" v-for="item in list" :key="item.id">
           <div class="item-time">AM 07:30</div>
-          <div class="item-content">和老友一起去钓鱼 🎣</div>
+          <div class="item-content">{{item.title}}</div>
         </li>
       </ul>
     </div>
@@ -16,6 +16,11 @@
 import BScroll from 'better-scroll'
 export default {
   name: 'HomeList',
+  props: {
+    list: {
+      type: Array
+    }
+  },
   data () {
     return {}
   },

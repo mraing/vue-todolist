@@ -4,6 +4,9 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 
+// 引入 Cube框架
+// import Cube from 'cube-ui'
+
 // 引入轮播图第三方库
 import VueAwesomeSwiper from 'vue-awesome-swiper'
 // 引入轮播图样式
@@ -22,7 +25,7 @@ import fastClick from 'fastClick'
 // 引入第三方库（解决移动端300ms点击延迟）
 fastClick.attach(document.body)
 
-// 使用轮播图
+// 调用框架
 Vue.use(VueAwesomeSwiper, animate)
 
 Vue.config.productionTip = false
