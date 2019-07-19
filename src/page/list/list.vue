@@ -11,7 +11,8 @@ import ListForm from './components/Form'
 export default {
   data () {
     return {
-      fatherTitle: ''
+      fatherTitle: '',
+      newList: {}
     }
   },
   methods: {
@@ -24,10 +25,15 @@ export default {
     submit () {
       // 判断是否存在数据
       if (this.fatherTitle) {
+        this.newList = {
+          title: this.fatherTitle
+        }
+        console.log('save')
+        console.log(this.newList)
         this.$router.push({
           name: 'Home',
           params: {
-            title: this.fatherTitle
+            newList: this.newList
           }
         })
       } else {

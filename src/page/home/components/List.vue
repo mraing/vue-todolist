@@ -3,7 +3,7 @@
     <div class="list-number">今天有 3 个任务</div>
     <div class="list-wrapper" ref="wrapper">
       <ul class="list">
-        <li class="list-item" v-for="item in list" :key="item.id">
+        <li class="list-item" v-for="(item, index) in list" :key="index">
           <div class="item-time">AM 07:30</div>
           <div class="item-content">{{item.title}}</div>
         </li>
