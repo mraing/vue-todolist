@@ -1,13 +1,17 @@
 <template>
   <div class="list-box">
-    <div class="list-number">今天有 3 个任务</div>
+    <div class="list-number">今天有 {{list.length}} 个任务</div>
     <div class="list-wrapper" ref="wrapper">
-      <ul class="list">
+      <ul class="list" v-if="list.length">
         <li class="list-item" v-for="(item, index) in list" :key="index">
           <div class="item-time">AM 07:30</div>
           <div class="item-content">{{item.title}}</div>
         </li>
       </ul>
+      <div v-else class="list-nothing">
+        <i class="iconfont">&#xe613;</i>
+        <p class="nothing-title">懒家伙，竟然一个任务都没有</p>
+      </div>
     </div>
   </div>
 </template>
@@ -67,4 +71,14 @@ export default {
           padding .2rem 0 .1rem 0
           font-size .28rem
           line-height .5rem
+    .list-nothing
+      margin-top 1.5rem
+      text-align center
+      .iconfont
+        font-size 1.6rem
+        color #999
+      .nothing-title
+        line-height .6rem
+        font-size .28rem
+        color #999
 </style>

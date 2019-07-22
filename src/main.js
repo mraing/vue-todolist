@@ -4,8 +4,8 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 
-// 引入 Cube框架
-// import Cube from 'cube-ui'
+// 引入 VUX 的时间组件
+import { DatetimePlugin } from 'vux'
 
 // 引入轮播图第三方库
 import VueAwesomeSwiper from 'vue-awesome-swiper'
@@ -26,7 +26,7 @@ import fastClick from 'fastClick'
 fastClick.attach(document.body)
 
 // 调用框架
-Vue.use(VueAwesomeSwiper, animate)
+Vue.use(DatetimePlugin, VueAwesomeSwiper, animate)
 
 Vue.config.productionTip = false
 

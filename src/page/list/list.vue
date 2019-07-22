@@ -1,7 +1,11 @@
 <template>
   <div class="list">
     <list-header @handleSave="submit"></list-header>
-    <list-form @newTitle="getTitle"></list-form>
+    <list-form
+      @newTitle="getTitle"
+      @timeStart="gitTimeStart"
+      @timeEnd="gitTimeEnd"
+    ></list-form>
   </div>
 </template>
 
@@ -12,14 +16,28 @@ export default {
   data () {
     return {
       fatherTitle: '',
+      fatherStartTime: '',
+      fatherEndTime: '',
       newList: {}
     }
   },
   methods: {
-    // 接收 form 子组件的值
+    // 接收 form 子组件的标题
     getTitle (title) {
       this.fatherTitle = title
       console.log(this.fatherTitle)
+    },
+    // 接收子组件的起始时间
+    gitTimeStart (timeStart) {
+      console.log('接收子组件的起始时间')
+      this.fatherStartTime = timeStart
+      console.log(this.fatherStartTime)
+    },
+    // 接收子组件的结束时间
+    gitTimeEnd (timeEnd) {
+      console.log('接收子组件的结束时间')
+      this.fatherEndTime = timeEnd
+      console.log(this.fatherEndTime)
     },
     // 提交数据
     submit () {
