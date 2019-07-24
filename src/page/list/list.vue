@@ -39,15 +39,17 @@ export default {
       this.fatherEndTime = timeEnd
       console.log(this.fatherEndTime)
     },
-    // 提交数据
+    // 提交数据了,向首页路由传值
     submit () {
       // 判断是否存在数据
       if (this.fatherTitle) {
         this.newList = {
-          title: this.fatherTitle
+          title: this.fatherTitle,
+          startTime: this.fatherStartTime,
+          endTime: this.fatherEndTime
         }
         console.log('save')
-        console.log(this.newList)
+        // console.log(this.newList)
         this.$router.push({
           name: 'Home',
           params: {

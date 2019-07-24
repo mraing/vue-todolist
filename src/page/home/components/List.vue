@@ -4,7 +4,7 @@
     <div class="list-wrapper" ref="wrapper">
       <ul class="list" v-if="list.length">
         <li class="list-item" v-for="(item, index) in list" :key="index">
-          <div class="item-time">AM 07:30</div>
+          <div class="item-time">{{item.startTime}}</div>
           <div class="item-content">{{item.title}}</div>
         </li>
       </ul>

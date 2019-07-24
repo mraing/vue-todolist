@@ -37,7 +37,8 @@ export default {
         this.todolist.unshift({
           id: this.todolist.length,
           title: newList.title,
-          time: 'AM 7:30'
+          startTime: newList.startTime,
+          endTime: newList.endTime
         })
         this.saveData()
       }

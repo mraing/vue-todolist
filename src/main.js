@@ -5,7 +5,7 @@ import App from './App'
 import router from './router'
 
 // 引入 VUX 的时间组件
-import { DatetimePlugin } from 'vux'
+import { DatetimePlugin, AlertPlugin } from 'vux'
 
 // 引入轮播图第三方库
 import VueAwesomeSwiper from 'vue-awesome-swiper'
@@ -27,6 +27,7 @@ fastClick.attach(document.body)
 
 // 调用框架
 Vue.use(DatetimePlugin, VueAwesomeSwiper, animate)
+Vue.use(AlertPlugin)
 
 Vue.config.productionTip = false
 

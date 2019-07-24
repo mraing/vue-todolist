@@ -25,11 +25,17 @@ export default {
   name: 'ListForm',
   data () {
     return {
+      // 记录任务标题
       title: '',
+      // 记录开始时间
       startTime: 'Start',
+      // 记录结束时间
       endTime: 'End',
+      // 开始时间转换为时间戳
       timeStampStart: '',
+      // 结束时间转换为时间戳
       timeStampEnd: '',
+      // 判断延时获取输入框的值
       timer: null
     }
   },
@@ -37,30 +43,75 @@ export default {
   },
   methods: {
     start () {
-      this.showPlugin('1')
+      // console.log('开始时间')
+      const _this = this
+      // 接收参数
+      this.showPlugin(function (val) {
+        _this.startTime = val
+        // 转换为时间戳
+        _this.timeStampStart = Date.parse(_this.startTime)
+        _this.judgeDate()
+      })
     },
     end () {
-      this.showPlugin('0')
+      const _this = this
+      // 接收参数
+      this.showPlugin(function (val) {
+        _this.endTime = val
+        // 转换为时间戳
+        _this.timeStampEnd = Date.parse(_this.endTime)
+        _this.judgeDate()
+      })
     },
     // 引入 VUX 时间控件
-    showPlugin (ele) {
-      const _this = this
+    showPlugin (callBack) {
+      // const _this = this
       this.$vux.datetime.show({
         cancelText: '取消',
         confirmText: '确定',
-        format: 'MM-DD HH:mm',
+        format: 'YYYY-MM-DD HH:mm',
+        yearRow: '{value}年',
+        monthRow: '{value}月',
+        dayRow: '{value}日',
+        hourRow: '{value}点',
+        minuteRow: '{value}分',
+        minYear: 2019,
+        maxYear: 2019,
         minuteList: ['00', '05', '10', '15', '20', '25', '30', '35', '40', '45', '50', '55'],
         value: '',
         // 点击确定按钮时触发
         onConfirm (val) {
-          // 判断是起始时间还是结束时间
-          if (ele === '1') {
-            _this.startTime = val
-          } else {
-            _this.endTime = val
-          }
+          callBack(val)
         }
       })
+    },
+    // 判断时间是否选择正确
+    judgeDate () {
+      const _this = this
+      // 判断是否选择了时间，若没有选择时间，直接结束 不再执行接下来的代码
+      if (this.startTime === 'Start' || this.endTime === 'End') {
+        return
+      }
+      // 判断结束时间是否大于开始时间
+      if (Number(this.timeStampEnd) <= Number(this.timeStampStart)) {
+        this.$vux.alert.show({
+          title: '🙀🙀',
+          hideOnBlur: true,
+          buttonText: '我错了',
+          content: '大佬你是穿越过来的么?任务竟然提前完成了',
+          onShow () {
+            // 当模态框显示时
+          },
+          onHide () {
+            // 当模态框关闭时
+            _this.endTime = 'End'
+            _this.timeStampEnd = ''
+          }
+        })
+      } else {
+        console.log('时间正确')
+        console.log(this.timeStampStart, this.timeStampEnd)
+      }
     }
   },
   watch: {
@@ -75,25 +126,27 @@ export default {
         // 向父组件传值
         this.$emit('newTitle', title)
       }, 300)
-    },
-    // 监听开始时间
-    startTime () {
-      if (this.timeStampStart !== 'Start') {
-        // 转换为时间戳
-        this.timeStampStart = Date.parse(this.startTime)
-        // 向父组件传值
-        this.$emit('timeStart', this.timeStampStart)
-      }
-    },
-    // 监听结束时间
-    endTime () {
-      if (this.timeStampEnd !== 'End') {
-        // 转换为时间戳
-        this.timeStampEnd = Date.parse(this.endTime)
-        // 向父组件传值
-        this.$emit('timeEnd', this.timeStampEnd)
-      }
     }
+    // 监听开始时间
+    // startTime () {
+    //   if (this.startTime !== 'Start' && this.endTime !== 'End') {
+    //     this.judgeDate()
+    //     // 转换为时间戳
+    //     this.timeStampStart = Date.parse(this.startTime)
+    //     // 向父组件传值
+    //     this.$emit('timeStart', this.timeStampStart)
+    //   }
+    // },
+    // 监听结束时间
+    // endTime () {
+    //   if (this.startTime !== 'Start' && this.endTime !== 'End') {
+    //     this.judgeDate()
+    //     // 转换为时间戳
+    //     this.timeStampEnd = Date.parse(this.endTime)
+    //     // 向父组件传值
+    //     this.$emit('timeEnd', this.timeStampEnd)
+    //   }
+    // }
   }
 }
 </script>
