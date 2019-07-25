@@ -26,7 +26,7 @@ export default {
     // 提交数据了,向首页路由传值
     submit () {
       // 判断是否存在数据
-      if (this.newItem.title && this.newItem.title && this.newItem.title) {
+      if (this.newItem.title && this.newItem.timeStampStart && this.newItem.timeStampEnd) {
         this.$router.push({
           name: 'Home',
           query: {
