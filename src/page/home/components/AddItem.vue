@@ -2,8 +2,14 @@
   <div class="add-item">
     <router-link
       tag="button"
-      to="/list"
       class="add-button"
+      :to="{
+        name: 'List',
+        path: '/list',
+        query: {
+          itemId: itemId
+        }
+      }"
     >
     <span class="iconfont">&#xe829;</span>
     </router-link>
@@ -13,8 +19,16 @@
 <script>
 export default {
   name: 'HomeAddlist',
+  props: ['listIndex'],
   data () {
-    return {}
+    return {
+      itemId: this.listIndex
+    }
+  },
+  watch: {
+    listIndex (newVal, OldVal) {
+      this.itemId = newVal
+    }
   }
 }
 </script>

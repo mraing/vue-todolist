@@ -1,7 +1,12 @@
 <template>
   <div class="form">
     <div class="from-title-wrapper">
-      <input class="from-title" type="text" placeholder="Heading" v-model="title" />
+      <input class="from-title"
+        type="text"
+        placeholder="Heading"
+        v-model="title"
+        ref="inputFocus"
+      />
     </div>
     <div class="form-date">
       <div
@@ -23,10 +28,13 @@
 <script>
 export default {
   name: 'ListForm',
+  props: ['itemId'],
   data () {
     return {
       // 记录任务标题
       title: '',
+      // 赋予 ID 值
+      itemKey: this.itemId,
       // 记录开始时间
       startTime: 'Start',
       // 记录结束时间
@@ -34,12 +42,14 @@ export default {
       // 开始时间转换为时间戳
       timeStampStart: '',
       // 结束时间转换为时间戳
-      timeStampEnd: '',
-      // 判断延时获取输入框的值
-      timer: null
+      timeStampEnd: ''
     }
   },
-  components: {
+  computed: {
+    myItemId () {
+      let myItemId = Number(this.itemId) + 1
+      return myItemId
+    }
   },
   methods: {
     start () {
@@ -111,42 +121,26 @@ export default {
       } else {
         console.log('时间正确')
         console.log(this.timeStampStart, this.timeStampEnd)
+        // 向父组件传值
+        let parameters = {
+          id: this.myItemId,
+          title: this.title,
+          timeStampStart: this.timeStampStart,
+          timeStampEnd: this.timeStampEnd
+        }
+        console.log(parameters)
+        this.$emit('newItem', parameters)
       }
     }
   },
   watch: {
-    // 监听输入框
-    title () {
-      // 延迟触发获取输入框的值
-      if (this.timer) {
-        clearTimeout(this.timer)
-      }
-      this.timer = setTimeout(() => {
-        let title = this.title
-        // 向父组件传值
-        this.$emit('newTitle', title)
-      }, 300)
+    itemId (newVal, oldVal) {
+      this.itemKey = newVal
     }
-    // 监听开始时间
-    // startTime () {
-    //   if (this.startTime !== 'Start' && this.endTime !== 'End') {
-    //     this.judgeDate()
-    //     // 转换为时间戳
-    //     this.timeStampStart = Date.parse(this.startTime)
-    //     // 向父组件传值
-    //     this.$emit('timeStart', this.timeStampStart)
-    //   }
-    // },
-    // 监听结束时间
-    // endTime () {
-    //   if (this.startTime !== 'Start' && this.endTime !== 'End') {
-    //     this.judgeDate()
-    //     // 转换为时间戳
-    //     this.timeStampEnd = Date.parse(this.endTime)
-    //     // 向父组件传值
-    //     this.$emit('timeEnd', this.timeStampEnd)
-    //   }
-    // }
+  },
+  mounted () {
+    console.log('聚焦')
+    this.$refs['inputFocus'].focus()
   }
 }
 </script>

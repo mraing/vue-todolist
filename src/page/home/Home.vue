@@ -2,7 +2,7 @@
   <div class="home">
     <home-header></home-header>
     <home-list :list="todolist"></home-list>
-    <home-add-item></home-add-item>
+    <home-add-item :listIndex="itemId"></home-add-item>
   </div>
 </template>
 
@@ -14,8 +14,9 @@ export default {
   name: 'Home',
   data () {
     return {
-      title: '',
-      todolist: []
+      newItem: {},
+      todolist: [],
+      itemId: ''
     }
   },
   components: {
@@ -25,21 +26,17 @@ export default {
   },
   watch: {
     todolist () {
-      console.log('监听 list')
-      console.log(this.todolist)
+      this.itemId = this.todolist.length
     }
   },
   methods: {
     // 读取路由传参，将参数放入 list 数组中
     getData () {
-      let newList = this.$route.params.newList
-      if (newList) {
-        this.todolist.unshift({
-          id: this.todolist.length,
-          title: newList.title,
-          startTime: newList.startTime,
-          endTime: newList.endTime
-        })
+      this.newItem = this.$route.query.newItem
+      // 判断是否存在数据
+      if (this.newItem.title && this.newItem.timeStampStart && this.newItem.timeStampEnd) {
+        console.log(this.newItem)
+        this.todolist.unshift(this.newItem)
         this.saveData()
       }
     },
@@ -47,6 +44,7 @@ export default {
     saveData () {
       const parsed = JSON.stringify(this.todolist)
       localStorage.setItem('todolist', parsed)
+      this.newItem = ''
     }
   },
   mounted () {

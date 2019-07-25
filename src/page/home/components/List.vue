@@ -1,10 +1,10 @@
 <template>
   <div class="list-box">
-    <div class="list-number">今天有 {{list.length}} 个任务</div>
+    <div class="list-number">今天有 {{isShow}} 个任务</div>
     <div class="list-wrapper" ref="wrapper">
-      <ul class="list" v-if="list.length">
+      <ul class="list" v-if="isShow">
         <li class="list-item" v-for="(item, index) in list" :key="index">
-          <div class="item-time">{{item.startTime}}</div>
+          <div class="item-time">{{item.timeStampStart}}</div>
           <div class="item-content">{{item.title}}</div>
         </li>
       </ul>
@@ -26,10 +26,27 @@ export default {
     }
   },
   data () {
-    return {}
+    return {
+      newList: this.list,
+      isShow: 0
+    }
   },
-  mounted () {
-    this.scroll = new BScroll(this.$refs.wrapper)
+  watch: {
+    list (newVal, oldVal) {
+      console.log('监听props传值')
+      this.newList = newVal
+      this.isShow = this.newList.length
+      console.log(newVal)
+    },
+    isShow () {
+      console.log('监听 isShow 变化 ')
+      this.$nextTick(() => {
+        // 必须保证DOM加载完毕 再执行BScroll
+        if (this.isShow) {
+          this.scroll = new BScroll(this.$refs.wrapper)
+        }
+      })
+    }
   }
 }
 </script>
