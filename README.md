@@ -1,8 +1,17 @@
-# todolist
+# Todolist
 
-> A Vue.js project
+> TodoList 顾名思义就是一个任务列表
 
-## Build Setup
+## 前言
+因为在公司项目使用的框架并不是 Vue,所以我只是一个初学者，我并不能熟练使用 Vue 开发，我做这些纯粹是为了自己的兴趣开发，仅供学习交流。
+
+我也知道还有很多不足的地方，不过没关系，不会的东西我会学，没全的功能我会做。如果你能给我提供更多的建议，我会非常感谢你。
+
+我在代码中写很多的注释，我希望每一个人都能看懂我的代码，并且明白我的做这一步的目的是什么。我知道肯定有写得不足的地方，如果有改进的地方，还请多多指教。
+
+## 如何运行
+
+和大多数项目一样，直接下载到本地运行如下命令即可
 
 ``` bash
 # install dependencies
@@ -10,12 +19,84 @@ npm install
 
 # serve with hot reload at localhost:8080
 npm run dev
-
-# build for production with minification
-npm run build
-
-# build for production and view the bundle analyzer report
-npm run build --report
 ```
 
-For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+## 运用到的Vue知识
+
++ 首先使用了官方推荐的脚手架 `vue-cli` ,用 `webpack` 来快速构建项目
+
++ 引入了 `VUX` 库
+
++ 页面中使用了组件化开发,引入了 `ESlint` 语法来规范代码
+
++ 页面之间用了 `vue-router` 来进行页面的切换。
+
++ 使用了 `props` 父子组件传值
+
++ 使用了本地存储数据 `localStorage` ，即便刷新后也不会丢失数据
+
+## 遇到的问题
++ 以前我对什么时候使用组件，什么时候使用路由没有概念，就是胡乱使用。现在要我来总结的话，**一个页面的组成尽可能的使用组件来构成**，方便维护和开发。
+
+
++ 页面之间的传值可以使用路由传值，简单的组件之间可以使用父子组件传值，但是不同页面之间的组件进来传值，推荐你还是使用 `VUEX` 来进行数据的传值，因为不这样做的话，你的代码会变得非常臃肿，页面之间耦合程度非常高，就是说一环错，你可能会步步错。
+
++ 我发现不同页面的组件之间的传值不太优雅 ，我使用 `VUEX` 来管理数据状态了，现在还没有完成这个功能，不过我觉得应该很快了。
+
++ vue中props值无法赋值给data域的问题
+
+## 如何解决问题
+解决问题的第一步并不是谷歌或者百度，而是自己先去想想问题，去查查官方文档。有些问题官方文档已经提及到了，或许是你没有看仔细而遗漏了，而这个时候正是你复习的绝佳机会。
+
++  prop 用来传递一个初始值；这个子组件接下来希望将其作为一个本地的 prop 数据来使用。这意味着你不能直接对接收到的值进行修改。
+
+
+```JS
+// 在这种情况下，最好定义一个本地的 data 属性并将这个 prop 用作其初始值
+
+props: ['initialCounter'],
+data: function () {
+  return {
+    counter: this.initialCounter
+  }
+}
+```
+根据上面这个问题而衍生出来的第二个问题，你会发现并不能赋值成功。
+
++ vue中props值无法赋值给data域的问题
+
+
+```JS
+export default {
+  name: "]'Total',
+  props:['total'],
+  data () {
+    return {
+        amount:this.total
+    }
+  },
+//watch很重要。data（）函数只是在初始化的时候会运行一次。所以总是空。而我们异步过来的数据，需要watch他 才能得到。
+  watch:{
+    total:function(newVal,oldVal){
+        this.amount = newVal;
+    }
+  },
+  mounted(){
+      console.log(this.amount)
+  }
+}
+```
+
+## 开发进度
+* [x] 首页列表
+
+* [x] 新建任务
+
+* [x] 用localStorage存储数据
+
+* [ ] 时间排序
+
+* [ ] 引入 VUEX 管理数据状态
+
+
+
