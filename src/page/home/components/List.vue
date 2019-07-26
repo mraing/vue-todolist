@@ -1,10 +1,13 @@
 <template>
   <div class="list-box">
-    <div class="list-number">今天有 {{isShow}} 个任务</div>
+    <div class="list-number">总共有 {{isShow}} 个任务</div>
     <div class="list-wrapper" ref="wrapper">
       <ul class="list" v-if="isShow">
         <li class="list-item" v-for="(item, index) in newList" :key="index">
-          <div class="item-time">{{item.timeStampStart}}</div>
+          <div class="item-time">
+            <span>{{item.timeStampStart.h}}:{{item.timeStampStart.m}}</span>
+            <span class="item-date">{{item.timeStampStart.M}}-{{item.timeStampStart.D}}</span>
+          </div>
           <div class="item-content">{{item.title}}</div>
         </li>
       </ul>
@@ -29,7 +32,6 @@ export default {
     return {
       newList: this.list,
       isShow: 0,
-      demo: 1398250549490,
       dateList: []
     }
   },
@@ -37,15 +39,23 @@ export default {
     handleDate (val) {
       val = Number(val)
       let date = new Date(val)
-      let Y, M, D, h, m
-      Y = date.getFullYear() + '-'
-      M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-'
-      D = date.getDate() + ' '
-      h = date.getHours() + ':'
+      let M, D, h, m
+      let dateObj = {}
+      // Y = date.getFullYear() + '-'
+      M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1)
+      D = date.getDate()
+      // h = date.getHours() + ':'
+      h = date.getHours() <= 12 ? 'AM ' + date.getHours() + ':' : 'PM ' + date.getHours() % 12
       // 分钟若为整数，则再后面加一个 0，否则不加
       m = date.getMinutes() % 10 === 0 ? date.getMinutes() + '0' : date.getMinutes()
       // s = date.getSeconds()
-      return Y + M + D + h + m
+      dateObj = {
+        M: M,
+        D: D,
+        h: h,
+        m: m
+      }
+      return dateObj
     }
   },
   computed: {
@@ -102,8 +112,14 @@ export default {
         overflow hidden
         .item-time
           padding-top .1rem
+          display flex
+          justify-content space-between
           font-size .4rem
           color #666
+          .item-date
+            padding-left .2rem
+            color #999
+            font-size .28rem
         .item-content
           padding .2rem 0 .1rem 0
           font-size .28rem
