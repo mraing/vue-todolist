@@ -4,7 +4,7 @@
     <div class="list-wrapper" ref="wrapper">
       <ul class="list" v-if="isShow">
         <li class="list-item" v-for="(item, index) in newList" :key="index">
-          <div class="item-time">{{item.timeStampEnd}}</div>
+          <div class="item-time">{{item.timeStampStart}}</div>
           <div class="item-content">{{item.title}}</div>
         </li>
       </ul>
@@ -35,7 +35,6 @@ export default {
   },
   methods: {
     handleDate (val) {
-      console.log(val)
       val = Number(val)
       let date = new Date(val)
       let Y, M, D, h, m
@@ -43,22 +42,21 @@ export default {
       M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-'
       D = date.getDate() + ' '
       h = date.getHours() + ':'
-      m = date.getMinutes()
+      // 分钟若为整数，则再后面加一个 0，否则不加
+      m = date.getMinutes() % 10 === 0 ? date.getMinutes() + '0' : date.getMinutes()
       // s = date.getSeconds()
-      console.log(Y + M + D + h + m)
       return Y + M + D + h + m
     }
   },
   computed: {
-    // sortstudents () {
-    //   return sortByKey(this.newList, 'timeStampStart')
-    // }
   },
   watch: {
     list (newVal, oldVal) {
-      console.log('页面监听')
-      console.log(this.list)
       this.newList = newVal
+      // 提前处理时间，将时间戳转为时间格式
+      for (const i in this.newList) {
+        this.newList[i].timeStampStart = this.handleDate(this.newList[i].timeStampStart)
+      }
       this.isShow = this.newList.length
     },
     isShow () {
@@ -71,14 +69,6 @@ export default {
     }
   }
 }
-// 数组排序
-// function sortByKey (array, key) {
-//   return array.sort(function (a, b) {
-//     let x = a[key]
-//     let y = b[key]
-//     return ((x < y) ? -1 : ((x > y) ? 1 : 0))
-//   })
-// }
 </script>
 
 <style lang="stylus" scoped>

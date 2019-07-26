@@ -136,10 +136,13 @@ export default {
   watch: {
     itemId (newVal, oldVal) {
       this.itemKey = newVal
+    },
+    title () {
+      this.judgeDate()
     }
   },
   mounted () {
-    console.log('聚焦')
+    // 一进页面便聚焦输入框
     this.$refs['inputFocus'].focus()
   }
 }
