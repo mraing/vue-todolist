@@ -32,11 +32,16 @@ export default {
   methods: {
     // 读取路由传参，将参数放入 list 数组中
     getData () {
-      this.newItem = this.$route.query.newItem
+      const newItem = this.$route.query.newItem
       // 判断是否存在数据
-      if (this.newItem.title && this.newItem.timeStampStart && this.newItem.timeStampEnd) {
-        console.log(this.newItem)
+      if (newItem === undefined) {
+        return
+      }
+      if (newItem.title) {
+        this.newItem = newItem
         this.todolist.unshift(this.newItem)
+        // 在正式放入本地localStorage之前，将数组进行排序
+        this.todolist = sortByKey(this.todolist, 'timeStampStart')
         this.saveData()
       }
     },
@@ -59,6 +64,14 @@ export default {
     // 把本地储存的数据进行赋值，赋值完成后再执行这个新增方法
     this.getData()
   }
+}
+// 数组排序
+function sortByKey (array, key) {
+  return array.sort(function (a, b) {
+    let x = a[key]
+    let y = b[key]
+    return ((x < y) ? -1 : ((x > y) ? 1 : 0))
+  })
 }
 </script>
 

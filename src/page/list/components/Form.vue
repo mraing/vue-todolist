@@ -167,7 +167,6 @@ export default {
       padding 0 .2rem
       flex 1
       font-size .4rem
-      // touch-action none
       &:last-child
         text-align right
 </style>

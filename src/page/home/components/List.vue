@@ -3,8 +3,8 @@
     <div class="list-number">今天有 {{isShow}} 个任务</div>
     <div class="list-wrapper" ref="wrapper">
       <ul class="list" v-if="isShow">
-        <li class="list-item" v-for="(item, index) in list" :key="index">
-          <div class="item-time">{{item.timeStampStart}}</div>
+        <li class="list-item" v-for="(item, index) in newList" :key="index">
+          <div class="item-time">{{item.timeStampEnd}}</div>
           <div class="item-content">{{item.title}}</div>
         </li>
       </ul>
@@ -28,18 +28,40 @@ export default {
   data () {
     return {
       newList: this.list,
-      isShow: 0
+      isShow: 0,
+      demo: 1398250549490,
+      dateList: []
     }
+  },
+  methods: {
+    handleDate (val) {
+      console.log(val)
+      val = Number(val)
+      let date = new Date(val)
+      let Y, M, D, h, m
+      Y = date.getFullYear() + '-'
+      M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-'
+      D = date.getDate() + ' '
+      h = date.getHours() + ':'
+      m = date.getMinutes()
+      // s = date.getSeconds()
+      console.log(Y + M + D + h + m)
+      return Y + M + D + h + m
+    }
+  },
+  computed: {
+    // sortstudents () {
+    //   return sortByKey(this.newList, 'timeStampStart')
+    // }
   },
   watch: {
     list (newVal, oldVal) {
-      console.log('监听props传值')
+      console.log('页面监听')
+      console.log(this.list)
       this.newList = newVal
       this.isShow = this.newList.length
-      console.log(newVal)
     },
     isShow () {
-      console.log('监听 isShow 变化 ')
       this.$nextTick(() => {
         // 必须保证DOM加载完毕 再执行BScroll
         if (this.isShow) {
@@ -49,6 +71,14 @@ export default {
     }
   }
 }
+// 数组排序
+// function sortByKey (array, key) {
+//   return array.sort(function (a, b) {
+//     let x = a[key]
+//     let y = b[key]
+//     return ((x < y) ? -1 : ((x > y) ? 1 : 0))
+//   })
+// }
 </script>
 
 <style lang="stylus" scoped>
