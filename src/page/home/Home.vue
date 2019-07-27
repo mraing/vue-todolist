@@ -1,7 +1,11 @@
 <template>
   <div class="home">
     <home-header></home-header>
-    <home-list :list="todolist"></home-list>
+    <home-list
+      :list="todolist"
+      @handeleFinish="handeleFinish"
+    >
+    </home-list>
     <home-add-item :listIndex="itemId"></home-add-item>
   </div>
 </template>
@@ -50,6 +54,19 @@ export default {
       const parsed = JSON.stringify(this.todolist)
       localStorage.setItem('todolist', parsed)
       this.newItem = ''
+    },
+    // 完成任务
+    handeleFinish (index) {
+      // 显示
+      this.$vux.confirm.show({
+        title: '你任务完成了么',
+        content: '完成任务后不可撤回哦',
+        hideOnBlur: true,
+        onConfirm: () => {
+          this.todolist.splice(index, 1)
+          this.saveData()
+        }
+      })
     }
   },
   mounted () {

@@ -3,7 +3,7 @@
     <div class="list-number">总共有 {{isShow}} 个任务</div>
     <div class="list-wrapper" ref="wrapper">
       <ul class="list" v-if="isShow">
-        <li class="list-item" v-for="(item, index) in newList" :key="index">
+        <li class="list-item" v-for="(item, index) in newList" :key="index" @click="handeleFinish(index)">
           <div class="item-time">
             <span>{{item.timeStampStart.h}}:{{item.timeStampStart.m}}</span>
             <span class="item-date">{{item.timeStampStart.M}}-{{item.timeStampStart.D}}</span>
@@ -36,6 +36,7 @@ export default {
     }
   },
   methods: {
+    // 格式化时间
     handleDate (val) {
       val = Number(val)
       let date = new Date(val)
@@ -56,6 +57,10 @@ export default {
         m: m
       }
       return dateObj
+    },
+    handeleFinish (index) {
+      console.log(index)
+      this.$emit('handeleFinish', index)
     }
   },
   computed: {
