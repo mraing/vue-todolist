@@ -1,5 +1,5 @@
 <template>
-    <h1 class="title">Todo List</h1>
+    <h1 class="title">TodoList</h1>
 </template>
 
 <script>
