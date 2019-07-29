@@ -59,7 +59,6 @@ export default {
       return dateObj
     },
     handeleFinish (index) {
-      console.log(index)
       this.$emit('handeleFinish', index)
     }
   },
