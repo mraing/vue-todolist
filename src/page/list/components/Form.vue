@@ -26,15 +26,13 @@
 </template>
 
 <script>
+import {mapState} from 'vuex'
 export default {
   name: 'ListForm',
-  props: ['itemId'],
   data () {
     return {
       // 记录任务标题
       title: '',
-      // 赋予 ID 值
-      itemKey: this.itemId,
       // 记录开始时间
       startTime: 'Start',
       // 记录结束时间
@@ -46,8 +44,11 @@ export default {
     }
   },
   computed: {
+    ...mapState({
+      todolist: state => state.todolist
+    }),
     myItemId () {
-      let myItemId = Number(this.itemId) + 1
+      let myItemId = this.todolist.length + 1
       return myItemId
     }
   },
@@ -122,6 +123,7 @@ export default {
         console.log('时间正确')
         console.log(this.timeStampStart, this.timeStampEnd)
         // 向父组件传值
+        console.log('向父组件传值')
         let parameters = {
           id: this.myItemId,
           title: this.title,
@@ -134,9 +136,6 @@ export default {
     }
   },
   watch: {
-    itemId (newVal, oldVal) {
-      this.itemKey = newVal
-    },
     title () {
       this.judgeDate()
     }

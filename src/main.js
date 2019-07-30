@@ -4,6 +4,9 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 
+// 引入 vuex
+import store from './store'
+
 // 引入 VUX 组件
 import { DatetimePlugin, AlertPlugin, ConfirmPlugin } from 'vux'
 
@@ -36,6 +39,7 @@ Vue.config.productionTip = false
 new Vue({
   el: '#app',
   router,
+  store,
   components: { App },
   template: '<App/>'
 })
