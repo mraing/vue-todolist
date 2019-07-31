@@ -1,9 +1,5 @@
 <template>
   <div class="list-box">
-<<<<<<< HEAD
-=======
-    <div class="list-number">总共有 {{handleIsShow}} 个任务</div>
->>>>>>> vuex
     <div class="list-wrapper" ref="wrapper">
       <ul class="list" v-if="handleIsShow">
         <li class="list-item"
