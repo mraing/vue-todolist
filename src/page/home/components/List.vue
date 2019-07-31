@@ -1,19 +1,77 @@
 <template>
   <div class="list-box">
     <div class="list-wrapper" ref="wrapper">
-      <ul class="list" v-if="handleIsShow">
-        <li class="list-item"
+
+      <swipeout class="list">
+          <swipeout-item
+            class="list-item"
+            v-for="(item, index) in dateList"
+            :key="index"
+            transition-mode="follow"
+            v-bind:class="{'list-item-finish': item.isFinish}"
+          >
+            <div slot="right-menu">
+              <swipeout-button
+                v-if="item.isFinish"
+                @click.native="onButtonClick('withdraw', index)"
+                background-color="#e06955"
+              >
+                取消完成
+              </swipeout-button>
+              <swipeout-button
+                v-else
+                @click.native="onButtonClick('finish',index)"
+                background-color="#e06955"
+              >
+                完成任务
+              </swipeout-button>
+              <swipeout-button
+                @click.native="onButtonClick('del',index)"
+                background-color="#e08e54"
+              >
+                删除任务
+              </swipeout-button>
+            </div>
+            <div slot="content">
+              <div
+                class="item-time"
+                :class="{'item-content-active': item.isFinish}"
+              >
+                <span>{{item.timeStampStart.h}}:{{item.timeStampStart.m}}</span>
+                <span class="item-date">{{item.timeStampStart.M}}-{{item.timeStampStart.D}}</span>
+              </div>
+              <div
+                class="item-content"
+                :class="{'item-content-active': item.isFinish}"
+              >
+                {{item.title}}
+              </div>
+            </div>
+          </swipeout-item>
+        </swipeout>
+
+      <ul class="list" v-if="handleIsShow" style="display:none">
+        <li class="list-item "
           v-for="(item, index) in dateList"
           :key="index"
           @click="handeleFinish(index)"
+          v-bind:class="{'list-item-finish': item.isFinish}"
         >
-          <div class="item-time">
+          <div
+            class="item-time item-content-active"
+          >
             <span>{{item.timeStampStart.h}}:{{item.timeStampStart.m}}</span>
             <span class="item-date">{{item.timeStampStart.M}}-{{item.timeStampStart.D}}</span>
           </div>
-          <div class="item-content">{{item.title}}</div>
+          <div
+            class="item-content"
+            :class="{'item-content-active': item.isFinish}"
+          >
+            {{item.title}}
+          </div>
         </li>
       </ul>
+
       <div v-else class="list-nothing">
         <i class="iconfont">&#xe613;</i>
         <p class="nothing-title">懒家伙，竟然一个任务都没有</p>
@@ -23,6 +81,7 @@
 </template>
 
 <script>
+import { Swipeout, SwipeoutItem, SwipeoutButton } from 'vux'
 import BScroll from 'better-scroll'
 export default {
   name: 'HomeList',
@@ -38,13 +97,18 @@ export default {
       dateList: []
     }
   },
+  components: {
+    Swipeout,
+    SwipeoutItem,
+    SwipeoutButton
+  },
   methods: {
+    // 滑动事件
+    onButtonClick (type, sub) {
+      this.$emit('handeleFinish', type, sub)
+    },
     handle () {
-      // 接收父组件的传值
-      // 复杂数据类型在栈中存贮的是指针,所以赋值给新的变量也会改变原始的变量值
-      // 可以手动深度克隆一个复杂的数据出来
-      // 先将对象转化为字符串,就是简单数据类型赋值,再用JSON.parse转化
-      this.dateList = JSON.parse(JSON.stringify(this.list))
+      this.dateList = this.list
       for (let i in this.dateList) {
         this.dateList[i].timeStampStart = this.handleDate(this.dateList[i].timeStampStart)
       }
@@ -83,9 +147,13 @@ export default {
         // 必须保证DOM加载完毕 再执行BScroll
         this.scroll = new BScroll(this.$refs.wrapper)
       })
+    },
+    list () {
+      // 监听 list 的变化
+      this.handle()
     }
   },
-  mounted () {
+  created () {
     this.handle()
   }
 }
@@ -129,6 +197,15 @@ export default {
           padding .2rem 0 .1rem 0
           font-size .28rem
           line-height .5rem
+      .list-item-finish
+        background #F5F5F5
+        box-shadow 0 0 10px 1px inset rgba(0,0,0,0.03)
+        .item-content-active
+          color #999
+          font-style italic
+          text-decoration line-through
+    .list >>> .vux-swipeout-content
+      background transparent
     .list-nothing
       margin-top 1.5rem
       text-align center
