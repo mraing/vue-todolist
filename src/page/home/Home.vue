@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <home-header :num="itemId"></home-header>
+    <home-header :num="newList.length"></home-header>
     <home-list
       :list="newList"
       @handeleFinish="handeleFinish"
@@ -19,9 +19,6 @@ export default {
   name: 'Home',
   data () {
     return {
-      newItem: {},
-      todolist: [],
-      itemId: 0
     }
   },
   components: {
@@ -34,9 +31,6 @@ export default {
       todolist: state => state.todolist
     }),
     newList () {
-      // 传值给子组件的数据
-      console.log('传值给子组件的数据')
-      console.log(this.todolist)
       return this.todolist
     }
   },

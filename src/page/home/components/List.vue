@@ -3,7 +3,7 @@
     <div class="list-wrapper" ref="wrapper">
       <ul class="list" v-if="handleIsShow">
         <li class="list-item"
-          v-for="(item, index) in handleList"
+          v-for="(item, index) in dateList"
           :key="index"
           @click="handeleFinish(index)"
         >
@@ -17,7 +17,6 @@
       <div v-else class="list-nothing">
         <i class="iconfont">&#xe613;</i>
         <p class="nothing-title">懒家伙，竟然一个任务都没有</p>
-        <div>{{handleList}}</div>
       </div>
     </div>
   </div>
@@ -34,12 +33,23 @@ export default {
   },
   data () {
     return {
-      // newList: this.list,
-      isShow: 0,
+      handleIsShow: 0,
+      isShow: this.list,
       dateList: []
     }
   },
   methods: {
+    handle () {
+      // 接收父组件的传值
+      // 复杂数据类型在栈中存贮的是指针,所以赋值给新的变量也会改变原始的变量值
+      // 可以手动深度克隆一个复杂的数据出来
+      // 先将对象转化为字符串,就是简单数据类型赋值,再用JSON.parse转化
+      this.dateList = JSON.parse(JSON.stringify(this.list))
+      for (let i in this.dateList) {
+        this.dateList[i].timeStampStart = this.handleDate(this.dateList[i].timeStampStart)
+      }
+      this.handleIsShow = this.dateList.length
+    },
     // 格式化时间
     handleDate (val) {
       val = Number(val)
@@ -52,7 +62,7 @@ export default {
       // h = date.getHours() + ':'
       h = date.getHours() <= 12 ? 'AM ' + date.getHours() : 'PM ' + date.getHours() % 12
       // 分钟若为整数，则再后面加一个 0，否则不加
-      m = date.getMinutes() % 10 === 0 ? date.getMinutes() + '0' : date.getMinutes()
+      m = date.getMinutes() <= 9 ? '0' + date.getMinutes() : date.getMinutes()
       // s = date.getSeconds()
       dateObj = {
         M: M,
@@ -66,38 +76,17 @@ export default {
       this.$emit('handeleFinish', index)
     }
   },
-  computed: {
-    handleList () {
-      // 接收父组件的传值
-      console.log('接收父组件的传值')
-      console.log(this.list)
-      // 复杂数据类型在栈中存贮的是指针,所以赋值给新的变量也会改变原始的变量值
-      // 可以手动深度克隆一个复杂的数据出来
-      // 先将对象转化为字符串,就是简单数据类型赋值,再用JSON.parse转化
-      let handleList = JSON.parse(JSON.stringify(this.list))
-      for (let i in handleList) {
-        handleList[i].timeStampStart = this.handleDate(handleList[i].timeStampStart)
-      }
-      // 处理完成之后的数据
-      console.log('处理完成之后的数据')
-      console.log(handleList)
-      return handleList
-    },
-    handleIsShow () {
-      let handleIsShow = this.list.length
-      return handleIsShow
-    }
-  },
   watch: {
     // 一旦列表数量变化了，便重置BScroll
-    isShow () {
+    handleIsShow () {
       this.$nextTick(() => {
         // 必须保证DOM加载完毕 再执行BScroll
-        if (this.isShow) {
-          this.scroll = new BScroll(this.$refs.wrapper)
-        }
+        this.scroll = new BScroll(this.$refs.wrapper)
       })
     }
+  },
+  mounted () {
+    this.handle()
   }
 }
 </script>

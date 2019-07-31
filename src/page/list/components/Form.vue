@@ -54,7 +54,6 @@ export default {
   },
   methods: {
     start () {
-      // console.log('开始时间')
       const _this = this
       // 接收参数
       this.showPlugin(function (val) {
@@ -120,10 +119,7 @@ export default {
           }
         })
       } else {
-        console.log('时间正确')
-        console.log(this.timeStampStart, this.timeStampEnd)
         // 向父组件传值
-        console.log('向父组件传值')
         let parameters = {
           id: this.myItemId,
           title: this.title,

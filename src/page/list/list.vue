@@ -33,22 +33,13 @@ export default {
     ]),
     // 接收 Form 子组件的传值
     getItem (parameter) {
-      console.log('接收 Form 子组件的传值')
-      console.log(parameter)
       this.newItem = parameter
     },
     // 提交数据了,向首页路由传值
-    submit (e) {
-      console.log(e)
+    submit () {
       let newItems = this.newItem
-      console.log('存储在变量中，便于操作')
-      console.log(this.newItem)
-      console.log(newItems)
       // 判断是否存在数据
       if (newItems.title && newItems.timeStampStart && newItems.timeStampEnd) {
-        // 调用存储方法
-        console.log('要存储的数据')
-        console.log(newItems)
         this.saveData(newItems)
         this.$router.push({
           name: 'Home'
