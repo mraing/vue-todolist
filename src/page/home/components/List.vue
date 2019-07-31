@@ -1,8 +1,16 @@
 <template>
   <div class="list-box">
+<<<<<<< HEAD
+=======
+    <div class="list-number">总共有 {{handleIsShow}} 个任务</div>
+>>>>>>> vuex
     <div class="list-wrapper" ref="wrapper">
-      <ul class="list" v-if="isShow">
-        <li class="list-item" v-for="(item, index) in newList" :key="index" @click="handeleFinish(index)">
+      <ul class="list" v-if="handleIsShow">
+        <li class="list-item"
+          v-for="(item, index) in handleList"
+          :key="index"
+          @click="handeleFinish(index)"
+        >
           <div class="item-time">
             <span>{{item.timeStampStart.h}}:{{item.timeStampStart.m}}</span>
             <span class="item-date">{{item.timeStampStart.M}}-{{item.timeStampStart.D}}</span>
@@ -13,6 +21,7 @@
       <div v-else class="list-nothing">
         <i class="iconfont">&#xe613;</i>
         <p class="nothing-title">懒家伙，竟然一个任务都没有</p>
+        <div>{{handleList}}</div>
       </div>
     </div>
   </div>
@@ -29,7 +38,7 @@ export default {
   },
   data () {
     return {
-      newList: this.list,
+      // newList: this.list,
       isShow: 0,
       dateList: []
     }
@@ -62,16 +71,29 @@ export default {
     }
   },
   computed: {
+    handleList () {
+      // 接收父组件的传值
+      console.log('接收父组件的传值')
+      console.log(this.list)
+      // 复杂数据类型在栈中存贮的是指针,所以赋值给新的变量也会改变原始的变量值
+      // 可以手动深度克隆一个复杂的数据出来
+      // 先将对象转化为字符串,就是简单数据类型赋值,再用JSON.parse转化
+      let handleList = JSON.parse(JSON.stringify(this.list))
+      for (let i in handleList) {
+        handleList[i].timeStampStart = this.handleDate(handleList[i].timeStampStart)
+      }
+      // 处理完成之后的数据
+      console.log('处理完成之后的数据')
+      console.log(handleList)
+      return handleList
+    },
+    handleIsShow () {
+      let handleIsShow = this.list.length
+      return handleIsShow
+    }
   },
   watch: {
-    list (newVal, oldVal) {
-      this.newList = newVal
-      // 提前处理时间，将时间戳转为时间格式
-      for (const i in this.newList) {
-        this.newList[i].timeStampStart = this.handleDate(this.newList[i].timeStampStart)
-      }
-      this.isShow = this.newList.length
-    },
+    // 一旦列表数量变化了，便重置BScroll
     isShow () {
       this.$nextTick(() => {
         // 必须保证DOM加载完毕 再执行BScroll
