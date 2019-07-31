@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <home-header></home-header>
+    <home-header :num="itemId"></home-header>
     <home-list
       :list="todolist"
       @handeleFinish="handeleFinish"
@@ -20,7 +20,7 @@ export default {
     return {
       newItem: {},
       todolist: [],
-      itemId: ''
+      itemId: 0
     }
   },
   components: {

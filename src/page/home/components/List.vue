@@ -1,6 +1,5 @@
 <template>
   <div class="list-box">
-    <div class="list-number">总共有 {{isShow}} 个任务</div>
     <div class="list-wrapper" ref="wrapper">
       <ul class="list" v-if="isShow">
         <li class="list-item" v-for="(item, index) in newList" :key="index" @click="handeleFinish(index)">
@@ -46,7 +45,7 @@ export default {
       M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1)
       D = date.getDate()
       // h = date.getHours() + ':'
-      h = date.getHours() <= 12 ? 'AM ' + date.getHours() + ':' : 'PM ' + date.getHours() % 12
+      h = date.getHours() <= 12 ? 'AM ' + date.getHours() : 'PM ' + date.getHours() % 12
       // 分钟若为整数，则再后面加一个 0，否则不加
       m = date.getMinutes() % 10 === 0 ? date.getMinutes() + '0' : date.getMinutes()
       // s = date.getSeconds()
@@ -93,11 +92,6 @@ export default {
   right 0
   bottom 0
   overflow hidden
-  .list-number
-    padding .1rem .4rem
-    font-size 0.28rem
-    color #999
-    line-height .4rem
   .list-wrapper
     position absolute
     top .6rem

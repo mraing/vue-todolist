@@ -126,7 +126,8 @@ export default {
           id: this.myItemId,
           title: this.title,
           timeStampStart: this.timeStampStart,
-          timeStampEnd: this.timeStampEnd
+          timeStampEnd: this.timeStampEnd,
+          isFinish: false
         }
         console.log(parameters)
         this.$emit('newItem', parameters)
