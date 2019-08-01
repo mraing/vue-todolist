@@ -4,7 +4,6 @@ export default {
   saveData (state, newList) {
     // 将新增数据放入列表中
     state.todolist.unshift(newList)
-    // state.todolist.unshift(newList)
     // 在正式放入本地localStorage之前，将数组进行排序
     state.todolist = sortByKey(state.todolist, 'timeStampStart')
     // 存储数据

@@ -37,7 +37,6 @@ export default {
       // 该回调会在任何被侦听的对象的 property 改变时被调用，不论其被嵌套多深
       handler (val, oldVal) {
         this.getData()
-        console.log(this.newList)
       },
       deep: true
     }
@@ -49,7 +48,6 @@ export default {
     ]),
     // 处理时间
     handeleFinish (type, sub) {
-      console.log('Home' + type, sub)
       // 完成任务
       if (type === 'finish' || type === 'withdraw') {
         this.$vux.confirm.show({
