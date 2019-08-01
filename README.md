@@ -2,6 +2,10 @@
 
 > TodoList 顾名思义就是一个任务列表
 
+## 项目预览
+![todolist](http://images.leegeing.cn/hexoImg/todolist.gif)
+
+
 ## 前言
 因为在公司项目使用的框架并不是 Vue,所以我只是一个Vue的爱好者，我并不能熟练使用 Vue 开发，我做这些纯粹是为了自己的兴趣，扩充自己的知识面，项目仅供学习交流。
 
